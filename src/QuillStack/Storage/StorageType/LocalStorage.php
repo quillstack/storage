@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace QuillStack\Storage\StorageType;
 
+use QuillStack\Http\Response\Response;
 use QuillStack\Storage\Exceptions\FileNotDeletedException;
 use QuillStack\Storage\Exceptions\FileNotExistsException;
 use QuillStack\Storage\Exceptions\FileNotSavedException;
 use QuillStack\Storage\StorageInterface;
+use Throwable;
 
 final class LocalStorage implements StorageInterface
 {
@@ -44,10 +46,16 @@ final class LocalStorage implements StorageInterface
      */
     public function save(string $path, $contents): bool
     {
-        $savedBytes = file_put_contents($path, $contents);
+        $message = "File not saved: {$path}";
+
+        try {
+            $savedBytes = file_put_contents($path, $contents);
+        } catch (Throwable $exception) {
+            throw new FileNotSavedException($message, Response::CODE_INTERNAL_SERVER_ERROR, $exception);
+        }
 
         if (!$savedBytes) {
-            throw new FileNotSavedException("File not saved: {$path}");
+            throw new FileNotSavedException($message);
         }
 
         return $savedBytes > 0;
@@ -76,10 +84,16 @@ final class LocalStorage implements StorageInterface
      */
     private function deleteOne(string $path): bool
     {
-        $deleted = unlink($path);
+        $message = "File not deleted: {$path}";
+
+        try {
+            $deleted = unlink($path);
+        } catch (Throwable $exception) {
+            throw new FileNotDeletedException($message, Response::CODE_INTERNAL_SERVER_ERROR, $exception);
+        }
 
         if (!$deleted) {
-            throw new FileNotDeletedException("File not deleted: {$path}");
+            throw new FileNotDeletedException($message);
         }
 
         return $deleted;

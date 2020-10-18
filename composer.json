@@ -19,7 +19,8 @@
         }
     ],
     "require": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "quillstack/response": "^1.0"
     },
     "autoload": {
         "psr-4": {

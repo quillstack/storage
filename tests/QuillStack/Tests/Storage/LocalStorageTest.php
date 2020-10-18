@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace QuillStack\Tests\Storage;
 
 use PHPUnit\Framework\TestCase;
+use QuillStack\Storage\Exceptions\FileNotDeletedException;
+use QuillStack\Storage\Exceptions\FileNotExistsException;
+use QuillStack\Storage\Exceptions\FileNotSavedException;
 use QuillStack\Storage\StorageType\LocalStorage;
 
 final class LocalStorageTest extends TestCase
@@ -89,5 +92,45 @@ final class LocalStorageTest extends TestCase
             ['four'],
             ['five'],
         ];
+    }
+
+    public function testNotExistingFile()
+    {
+        $this->expectException(FileNotExistsException::class);
+
+        $this->storage->get('not-exists');
+    }
+
+    public function testMissingFile()
+    {
+        $missing = $this->storage->missing('not-exists');
+        $exists = $this->storage->exists('not-exists');
+
+        $this->assertTrue($missing);
+        $this->assertFalse($exists);
+    }
+
+    public function testExistsFile()
+    {
+        $path = dirname(__FILE__) . '/../Fixtures/empty.txt';
+        $missing = $this->storage->missing($path);
+        $exists = $this->storage->exists($path);
+
+        $this->assertFalse($missing);
+        $this->assertTrue($exists);
+    }
+
+    public function testNotSaved()
+    {
+        $this->expectException(FileNotSavedException::class);
+
+        $this->storage->save('/dir-not-exists', 'world');
+    }
+
+    public function testNotDeleted()
+    {
+        $this->expectException(FileNotDeletedException::class);
+
+        $this->storage->delete('/dir-not-exists');
     }
 }
