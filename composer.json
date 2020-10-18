@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "QuillStack\\Dotenv\\": "src/QuillStack/Storage/",
+            "QuillStack\\Storage\\": "src/QuillStack/Storage/",
             "QuillStack\\Tests\\": "tests/QuillStack/Tests/"
         }
     },

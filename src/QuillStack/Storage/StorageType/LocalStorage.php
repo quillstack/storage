@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace QuillStack\Storage;
+namespace QuillStack\Storage\StorageType;
 
 use QuillStack\Storage\Exceptions\FileNotDeletedException;
 use QuillStack\Storage\Exceptions\FileNotExistsException;
 use QuillStack\Storage\Exceptions\FileNotSavedException;
+use QuillStack\Storage\StorageInterface;
 
 final class LocalStorage implements StorageInterface
 {
