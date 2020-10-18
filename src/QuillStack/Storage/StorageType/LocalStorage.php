@@ -54,10 +54,6 @@ final class LocalStorage implements StorageInterface
             throw new FileNotSavedException($message, Response::CODE_INTERNAL_SERVER_ERROR, $exception);
         }
 
-        if (!$savedBytes) {
-            throw new FileNotSavedException($message);
-        }
-
         return $savedBytes > 0;
     }
 
@@ -90,10 +86,6 @@ final class LocalStorage implements StorageInterface
             $deleted = unlink($path);
         } catch (Throwable $exception) {
             throw new FileNotDeletedException($message, Response::CODE_INTERNAL_SERVER_ERROR, $exception);
-        }
-
-        if (!$deleted) {
-            throw new FileNotDeletedException($message);
         }
 
         return $deleted;
