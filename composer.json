@@ -1,0 +1,34 @@
+{
+    "name": "quillstack/storage",
+    "description": "Storage service to set common interface for different types of storages (e.g. local, S3).",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "storage",
+        "local",
+        "library",
+        "php",
+        "php7",
+        "interface"
+    ],
+    "homepage": "https://quillstack.com/storage",
+    "authors": [
+        {
+            "name": "Radek Ziemniewicz",
+            "email": "open-source@quillstack.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "QuillStack\\Dotenv\\": "src/QuillStack/Storage/",
+            "QuillStack\\Tests\\": "tests/QuillStack/Tests/"
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.1",
+        "phpunit/phpunit": "^9"
+    }
+}
